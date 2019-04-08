@@ -27,7 +27,7 @@ class SimpleStoreHandler extends TransactionHandler {
         `Action must be create, delete, or take not ${payload.action}`
       )
     }
-  }
+   }
 
 }
 

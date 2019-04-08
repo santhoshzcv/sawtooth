@@ -1,30 +1,28 @@
 const env = require('../shared/env');
 var { _hashforpayload } = require("../shared/Addressing.js");
-
-const { createContext, CryptoFactory } = require('sawtooth-sdk/signing')
 const cbor = require('cbor')
 const { protobuf } = require('sawtooth-sdk')
+const  keyManager  = require('./keymanager');
 
-const context = createContext('secp256k1')
-const privateKey = context.newRandomPrivateKey()
-const signer = new CryptoFactory(context).newSigner(privateKey)
 
-function prepareTransactions(payload) {
+function prepareTransactions(payload,keyManager ) {
   const payloadBytes = cbor.encode(payload)
   const transactionHeaderBytes = protobuf.TransactionHeader.encode({
     familyName: env.familyName,
     familyVersion: env.familyVersion,
     inputs: ['917479'],
     outputs: ['917479'],
-    signerPublicKey: signer.getPublicKey().asHex(),
-    batcherPublicKey: signer.getPublicKey().asHex(),
+    signerPublicKey: keyManager.readpublickey("santhosh"),
+    batcherPublicKey: keyManager.readpublickey("santhosh"),
     dependencies: [],
     payloadSha512: _hashforpayload(payloadBytes),
     nonce: (new Date()).toString()
   }).finish()
-
-
-  const signature = signer.sign(transactionHeaderBytes)
+   
+  
+  
+  const signature = keyManager.sign(transactionHeaderBytes);
+  // const signature = signer.sign(transactionHeaderBytes)
 
   const transaction = protobuf.Transaction.create({
     header: transactionHeaderBytes,
@@ -35,11 +33,11 @@ function prepareTransactions(payload) {
   const transactions = [transaction]
 
   const batchHeaderBytes = protobuf.BatchHeader.encode({
-    signerPublicKey: signer.getPublicKey().asHex(),
+    signerPublicKey:keyManager.readpublickey("santhosh"),
     transactionIds: transactions.map((txn) => txn.headerSignature),
   }).finish()
 
-  headerSignature = signer.sign(batchHeaderBytes)
+  headerSignature = keyManager.sign(batchHeaderBytes);
 
   const batch = protobuf.Batch.create({
     header: batchHeaderBytes,

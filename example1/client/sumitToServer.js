@@ -10,8 +10,19 @@ SubmitToServer = (batchListBytes) => {
     if (err) return console.log(err)
     console.log(response.body)
   })
-
 }
+
+
+ request.get({
+  url: env.urlToGet,
+  headers: { 'Content-Type': 'application/octet-stream' }
+}, (err, response) => {
+  if (err) return console.log(err)
+  console.log((response.body));
+ 
+})
+
+
 
 module.exports = { SubmitToServer }
 

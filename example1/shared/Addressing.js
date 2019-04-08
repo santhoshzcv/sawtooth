@@ -1,5 +1,5 @@
 const { createHash } = require('crypto')
-
+const env = require('./env');
 _hash1=(x)=>{
   return createHash('sha512').update(x).digest('hex').toLowerCase().substring(0, 64);
   }
@@ -8,9 +8,7 @@ _hashforpayload=(x) =>{
   return createHash('sha512').update(x).digest('hex');
 }
 
-makeAddress = (x) => {
-   const TP_FAMILY = 'simplestore';
-   TP_NAMESPACE = _hash1(TP_FAMILY).substring(0, 6);
+makeAddress = (x,TP_NAMESPACE) => {
    return TP_NAMESPACE +_hash1(x);
 }
 
