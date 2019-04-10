@@ -2,18 +2,22 @@ const env = require('../shared/env');
 var { _hashforpayload } = require("../shared/Addressing.js");
 const cbor = require('cbor')
 const { protobuf } = require('sawtooth-sdk')
-const  keyManager  = require('./keymanager');
+const  KeyManager = require('./keymanager');
 
 
-function prepareTransactions(payload,keyManager ) {
+
+function prepareTransactions(payload,username) {
+
+  var keyManager = new KeyManager();
+  var tempUserPublicKey = keyManager.readpublickey(username) 
   const payloadBytes = cbor.encode(payload)
   const transactionHeaderBytes = protobuf.TransactionHeader.encode({
     familyName: env.familyName,
     familyVersion: env.familyVersion,
     inputs: ['917479'],
     outputs: ['917479'],
-    signerPublicKey: keyManager.readpublickey("santhosh"),
-    batcherPublicKey: keyManager.readpublickey("santhosh"),
+     signerPublicKey: tempUserPublicKey,
+     batcherPublicKey: tempUserPublicKey,
     dependencies: [],
     payloadSha512: _hashforpayload(payloadBytes),
     nonce: (new Date()).toString()
@@ -21,8 +25,7 @@ function prepareTransactions(payload,keyManager ) {
    
   
   
-  const signature = keyManager.sign(transactionHeaderBytes);
-  // const signature = signer.sign(transactionHeaderBytes)
+  const signature = keyManager.sign(transactionHeaderBytes,username);
 
   const transaction = protobuf.Transaction.create({
     header: transactionHeaderBytes,
@@ -33,11 +36,11 @@ function prepareTransactions(payload,keyManager ) {
   const transactions = [transaction]
 
   const batchHeaderBytes = protobuf.BatchHeader.encode({
-    signerPublicKey:keyManager.readpublickey("santhosh"),
-    transactionIds: transactions.map((txn) => txn.headerSignature),
+  signerPublicKey:tempUserPublicKey,
+  transactionIds: transactions.map((txn) => txn.headerSignature),
   }).finish()
 
-  headerSignature = keyManager.sign(batchHeaderBytes);
+  headerSignature = keyManager.sign(batchHeaderBytes,username);
 
   const batch = protobuf.Batch.create({
     header: batchHeaderBytes,
@@ -52,7 +55,7 @@ function prepareTransactions(payload,keyManager ) {
   return batchListBytes;
 }
 
-module.exports = { prepareTransactions };
+ module.exports = { prepareTransactions };
 
 
 

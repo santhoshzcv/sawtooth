@@ -23,7 +23,7 @@ class SimpelStoreState {
   }
 
   getValue(value) {
-    var address = makeAddress(value,TP_NAMESPACE);
+    var address = makeAddress(value,env.TP_NAMESPACE);
     return this.context.getState([address], this.timeout).then(function (stateEntries) {
       Object.assign(this.stateEntries, stateEntries);
       console.log(this.stateEntries[address].toString())
