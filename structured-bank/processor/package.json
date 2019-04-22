@@ -1,0 +1,17 @@
+{
+  "name": "processor",
+  "version": "1.0.0",
+  "description": "processor for business logic",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "santhosh",
+  "license": "ISC",
+  "dependencies": {
+    "cbor": "^4.1.5",
+    "crypto": "^1.0.1",
+    "sawtooth-sdk": "^1.0.5",
+    "text-encoding": "^0.6.4"
+  }
+}
