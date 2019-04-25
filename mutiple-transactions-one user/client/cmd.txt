@@ -1,0 +1,12 @@
+node app.js 'santhosh' '{"verb":"create_account","customer_id":"101","customer_name":"regi","savings_balance":5000,"checking_balance":3000}' '{"verb":"create_account","customer_id":"102","customer_name":"santhosh","savings_balance":5000,"checking_balance":"3000"}'
+
+ node app.js 'santhosh' '[{"verb":"create_account","customer_id":"101","customer_name":"regi","savings_balance":5000,"checking_balance":3000}, {"verb":"create_account","customer_id":"102","customer_name":"santhosh","savings_balance":5000,"checking_balance":"3000"} ]'
+
+
+   let transactions= []; 
+  for(i =0;i<payload.length;i++){
+  transactions.push(prepareTransaction(payload[i],username));
+  }
+ console.log(transactions);
+
+ const {prepareTransaction} = require('./transactions')
