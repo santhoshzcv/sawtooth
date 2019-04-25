@@ -53,4 +53,33 @@ sawtooth example1 for setting and getting data
 
     ex:  node app.js 'regi' '{"verb":"transfer_money","source_customer_id":"101","dest_customer_id":"102", "amount":1000}'
     
+
+    #######################################################################
+
+    3. multiple transactions of single user 
+        
+           1. start the validator
+   
+              docker-compose -f sawtooth-default.yaml up
+
+           2. Run  Processor
+
+              -> node index.js
+
+          3. Run Client
+
+           ex1: To create two accounts of single user using different ids
+
+            node app.js 'santhosh' '{"verb":"create_account","customer_id":"101","customer_name":"regi","savings_balance":5000,"checking_balance":3000}' 
+            '{"verb":"create_account","customer_id":"102","customer_name":"santhosh","savings_balance":5000,"checking_balance":"3000"}'
+         
+          ex2: To  deposit amount in two accounts of single user
+            
+             node app.js 'santhosh'  '{"verb":"deposit_money","customer_id":"101","amount":2000}' 
+             '{"verb":"deposit_money","customer_id":"102","amount":3000}
+
+            
+            Any two operations can be performed at a time
+
+           
     
