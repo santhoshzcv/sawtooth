@@ -15,8 +15,9 @@ class SimpelStoreState {
     console.log(address);
     var stateEntriesSend = {}
     stateEntriesSend[address] = Buffer.from("Hello! " + value);
-    return this.context.setState(stateEntriesSend, this.timeout).then(function (result) {
+   this.context.setState(stateEntriesSend, this.timeout).then(function (result) {
       console.log("Success", result)
+      
     }).catch(function (error) {
       console.error("Error", error)
     })
