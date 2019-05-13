@@ -1,6 +1,6 @@
 # sawtooth  
 
-1.
+1)
 sawtooth example1 for setting and getting data 
 
 1. start the validator
@@ -19,7 +19,7 @@ sawtooth example1 for setting and getting data
 
 #####################################################################
 
-2  steps  to execute  structured-bank 
+2) steps  to execute  structured-bank 
 
  1. start the validator
    
@@ -33,7 +33,7 @@ sawtooth example1 for setting and getting data
   
   a) create account 
     
-    ex: node app.js 'regi' '{"verb":"create_account","customer_id":"101","customer_name":"regi",                      "savings_balance":5000,"checking_balance":3000}'
+    ex: node app.js 'regi' '{"verb":"create_account","customer_id":"101","customer_name":"regi","savings_balance":5000,"checking_balance":3000}'
 
     'regi'-> is the username  to create keys to sign the transaction
     "checking_balance" -> is the wallet balance
@@ -56,7 +56,7 @@ sawtooth example1 for setting and getting data
 
     #######################################################################
 
-    3. multiple transactions of single user 
+  3) multiple transactions of single user 
         
            1. start the validator
    
@@ -81,5 +81,41 @@ sawtooth example1 for setting and getting data
             
             Any two operations can be performed at a time
 
+
+###################################################
            
-    
+    4) steps to execute multiple transactions of  two differend users
+
+
+          1. start the validator
+   
+              docker-compose -f sawtooth-default.yaml up
+
+          2. Run  Processor
+
+              -> node index.js
+
+          3. Run Client
+
+          a)  run  below command to create accounts of different users  at a time
+
+             node app.js 'santhosh' '{"verb":"create_account","customer_id":"101","customer_name":"santhosh","savings_balance":5000,"checking_balance":3000}'  
+             'regi' '{"verb":"create_account","customer_id":"102","customer_name":"regi","savings_balance":5000,"checking_balance":"3000"}'
+
+          b) run below command  to deposit amount for both accounts  at a time
+
+             node app.js 'santhosh' '{"verb":"deposit_money","customer_id":"101","amount":2000}' 
+             'regi' '{"verb":"deposit_money","customer_id":"101","amount":2000}'
+
+          
+          c) run below command to withdraw amount fron both accounts
+
+              node app.js 'santhosh'  '{"verb":"withdraw_money","customer_id":"101","amount":4000}' 
+               'regi' '{"verb":"withdraw_money","customer_id":"102","amount":4000}'
+
+          d) run below command to transfer amount of two different users
+
+              node app.js 'santhosh' '{"verb":"transfer_money","source_customer_id":"101" "dest_customer_id":"102", "amount":1000}' 
+              'regi' '{"verb":"transfer_money","source_customer_id":"102","dest_customer_id":"101", "amount":1000}'
+
+              
