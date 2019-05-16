@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package model;
+
+message Payload {
+
+ enum Action {
+    UPLOAD_KYC_DATA = 0;
+    VERIFY_KYC_DATA = 1;
+}
+
+Action action = 1;
+optional UploadKycParams upload_kyc_data = 2;
+optional VerifyKycParams verify_kyc_data = 3;
+
+}
+
+
+message UploadKycParams {
+  required string id = 1;
+  required string name = 2;
+  required string bankname = 3;
+}
+
+message VerifyKycParams {
+  required string id = 1;
+  required string status = 2;
+}
+
+  
